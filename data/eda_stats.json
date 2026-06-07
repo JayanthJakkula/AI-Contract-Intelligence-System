@@ -1,0 +1,13 @@
+{
+  "total_contracts": 607,
+  "clause_types": [
+    "Confidentiality Clause",
+    "Termination Clause",
+    "Payment Clause",
+    "Liability Clause",
+    "Non-Compete Clause"
+  ],
+  "average_clause_length_words": 45.42924211938296,
+  "longest_clause_words": 413,
+  "shortest_clause_words": 5
+}

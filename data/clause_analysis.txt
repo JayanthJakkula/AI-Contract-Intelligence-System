@@ -1,0 +1,29 @@
+Task 6: Clause Understanding Analysis
+===================================
+Contract A: "Payment shall be made within 30 days."
+Contract B: "Within 30 days payment shall be made."
+
+Tokens:
+  Contract A: ['payment', 'shall', 'be', 'made', 'within', '30', 'days', '.'] (Length: 8)
+  Contract B: ['within', '30', 'days', 'payment', 'shall', 'be', 'made', '.'] (Length: 8)
+
+Analysis of Words at Different Positions:
+1. The word 'payment' is identical in both contracts but occurs at different positions:
+   - Contract A: Position 1 (index 0)
+   - Contract B: Position 4 (index 3)
+   - Cosine Similarity between their positional encodings: 0.7996
+
+2. The word '30' also occurs at different positions:
+   - Contract A: Position 6 (index 5)
+   - Contract B: Position 2 (index 1)
+   - Cosine Similarity between their positional encodings: 0.7479
+
+3. Distance in Sinusoidal Positional Space:
+   - Euclidean distance between 'payment' and '30' positional representations in Contract A: 4.1221
+   - Euclidean distance between 'payment' and '30' positional representations in Contract B: 2.7189
+
+Explanation:
+- Same Words, Different Order: Without positional encoding, a Bag of Words representation or standard embedding sum/average (like our Baseline Model) would treat both contracts identically. They contain the exact same set of tokens: {'payment', 'shall', 'be', 'made', 'within', '30', 'days', '.'}.
+- Different Positional Representations: The sinusoidal positional encoding adds unique, position-dependent vectors to the word embeddings before self-attention is computed.
+- Positional similarity (cosine similarity between 'payment' at index 0 vs index 4 is 0.7996) shows that the representations are mathematically distinct.
+- Because the positional encodings are unique, the Self-Attention layer computes different dot products (Query-Key alignments) for 'payment' and '30' depending on where they appear. This enables the model to understand the exact structure and context of the clause (e.g., emphasis or main verb relationships), rather than just treating it as a flat set of words.
