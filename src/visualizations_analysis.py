@@ -10,6 +10,9 @@ from data_processing import clean_text, tokenize, pad_sequence
 # Set styles for plots
 sns.set_theme(style="white")
 
+# Base directory for relative paths
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 def task5_positional_encoding_visualization():
     print("\n--- Task 5: Positional Encoding Heatmap ---")
     d_model = 64
@@ -29,7 +32,7 @@ def task5_positional_encoding_visualization():
     plt.ylabel("Position", fontsize=12)
     plt.tight_layout()
     
-    output_path = "d:/Deep_Learning/AI Contract Intelligence System/assets/positional_encoding_heatmap.png"
+    output_path = os.path.join(base_dir, "assets", "positional_encoding_heatmap.png")
     plt.savefig(output_path, dpi=150)
     plt.close()
     print(f"Positional encoding heatmap saved to {output_path}")
@@ -45,7 +48,7 @@ def task5_positional_encoding_visualization():
     plt.legend()
     plt.grid(True, linestyle="--", alpha=0.5)
     plt.tight_layout()
-    line_plot_path = "d:/Deep_Learning/AI Contract Intelligence System/assets/positional_encoding_lines.png"
+    line_plot_path = os.path.join(base_dir, "assets", "positional_encoding_lines.png")
     plt.savefig(line_plot_path, dpi=150)
     plt.close()
     print(f"Line plot for positions 1-5 saved to {line_plot_path}")
@@ -124,7 +127,7 @@ Explanation:
 """
     print(analysis_text)
     
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/clause_analysis.txt", "w", encoding='utf-8') as f:
+    with open(os.path.join(base_dir, "data", "clause_analysis.txt"), "w", encoding='utf-8') as f:
         f.write(analysis_text)
     print("Analysis saved to data/clause_analysis.txt")
 
@@ -133,7 +136,7 @@ def task7_attention_analysis():
     print("\n--- Task 7: Attention Analysis ---")
     
     # Load vocabulary
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/vocab.json", "r", encoding='utf-8') as f:
+    with open(os.path.join(base_dir, "data", "vocab.json"), "r", encoding='utf-8') as f:
         vocab = json.load(f)
         
     vocab_size = len(vocab)
@@ -144,7 +147,7 @@ def task7_attention_analysis():
     
     # Initialize and load model
     model = AttentionModel(vocab_size, embedding_dim, num_heads, num_classes, max_len=max_len)
-    model.load_state_dict(torch.load("d:/Deep_Learning/AI Contract Intelligence System/data/attention_model.pt", map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load(os.path.join(base_dir, "data", "attention_model.pt"), map_location=torch.device('cpu')))
     model.eval()
     
     # Sample sentence to analyze
@@ -179,7 +182,7 @@ def task7_attention_analysis():
     plt.yticks(rotation=0)
     plt.tight_layout()
     
-    output_path = "d:/Deep_Learning/AI Contract Intelligence System/assets/attention_map_sample.png"
+    output_path = os.path.join(base_dir, "assets", "attention_map_sample.png")
     plt.savefig(output_path, dpi=150)
     plt.close()
     print(f"Attention map sample saved to {output_path}")
@@ -198,7 +201,7 @@ def task7_attention_analysis():
         "tokens": tokens,
         "importance_scores": word_importance.tolist()
     }
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/attention_stats.json", "w", encoding='utf-8') as f:
+    with open(os.path.join(base_dir, "data", "attention_stats.json"), "w", encoding='utf-8') as f:
         json.dump(attn_stats, f, indent=2)
     print("Attention statistics saved to data/attention_stats.json")
 

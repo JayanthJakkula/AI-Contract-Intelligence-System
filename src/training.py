@@ -91,10 +91,11 @@ def main():
     print(f"Using device: {device}")
     
     # Load dataset and vocab
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/preprocessed_data.json", "r", encoding='utf-8') as f:
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    with open(os.path.join(base_dir, "data", "preprocessed_data.json"), "r", encoding='utf-8') as f:
         preprocessed_data = json.load(f)
         
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/vocab.json", "r", encoding='utf-8') as f:
+    with open(os.path.join(base_dir, "data", "vocab.json"), "r", encoding='utf-8') as f:
         vocab = json.load(f)
         
     vocab_size = len(vocab)
@@ -137,7 +138,7 @@ def main():
     print(f"  F1 Score:  {test_f1_b:.4f}")
     
     # Save baseline weights
-    torch.save(baseline_model.state_dict(), "d:/Deep_Learning/AI Contract Intelligence System/data/baseline_model.pt")
+    torch.save(baseline_model.state_dict(), os.path.join(base_dir, "data", "baseline_model.pt"))
     
     # --- Train Self-Attention Model ---
     print("\n--- Training Self-Attention Model (Embedding + PE + Attention + Dense) ---")
@@ -154,7 +155,7 @@ def main():
     print(f"  F1 Score:  {test_f1_a:.4f}")
     
     # Save attention weights
-    torch.save(attention_model.state_dict(), "d:/Deep_Learning/AI Contract Intelligence System/data/attention_model.pt")
+    torch.save(attention_model.state_dict(), os.path.join(base_dir, "data", "attention_model.pt"))
     
     # Save model comparison stats
     comparison = {
@@ -172,7 +173,7 @@ def main():
         }
     }
     
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/model_comparison.json", "w") as cf:
+    with open(os.path.join(base_dir, "data", "model_comparison.json"), "w") as cf:
         json.dump(comparison, cf, indent=2)
     print("\nSaved model comparisons to data/model_comparison.json")
 

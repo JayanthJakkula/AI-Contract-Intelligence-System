@@ -132,9 +132,11 @@ st.markdown("""
 # --- Load Model and Vocabulary ---
 @st.cache_resource
 def load_resources():
-    vocab_path = "d:/Deep_Learning/AI Contract Intelligence System/data/vocab.json"
-    model_path = "d:/Deep_Learning/AI Contract Intelligence System/data/attention_model.pt"
-    comparison_path = "d:/Deep_Learning/AI Contract Intelligence System/data/model_comparison.json"
+    # Construct relative paths based on file location to support multi-platform execution
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    vocab_path = os.path.join(base_dir, "data", "vocab.json")
+    model_path = os.path.join(base_dir, "data", "attention_model.pt")
+    comparison_path = os.path.join(base_dir, "data", "model_comparison.json")
     
     with open(vocab_path, "r", encoding='utf-8') as f:
         vocab = json.load(f)

@@ -11,10 +11,13 @@ from collections import Counter
 random.seed(42)
 np.random.seed(42)
 
+# Base directory for relative paths
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # Ensure folders exist
-os.makedirs("d:/Deep_Learning/AI Contract Intelligence System/data", exist_ok=True)
-os.makedirs("d:/Deep_Learning/AI Contract Intelligence System/assets", exist_ok=True)
-os.makedirs("d:/Deep_Learning/AI Contract Intelligence System/src", exist_ok=True)
+os.makedirs(os.path.join(base_dir, "data"), exist_ok=True)
+os.makedirs(os.path.join(base_dir, "assets"), exist_ok=True)
+os.makedirs(os.path.join(base_dir, "src"), exist_ok=True)
 
 def generate_payment_clauses(n=600):
     payment_templates = [
@@ -170,7 +173,7 @@ def pad_sequence(tokens, vocab, max_len=50):
     return indices
 
 def process_dataset():
-    jsonl_path = "d:/Deep_Learning/AI Contract Intelligence System/data/contract_nli_v1.jsonl"
+    jsonl_path = os.path.join(base_dir, "data", "contract_nli_v1.jsonl")
     
     print("Loading Contract-NLI dataset from JSONL...")
     rows = []
@@ -266,7 +269,7 @@ def process_dataset():
     print(df["subset"].value_counts())
     
     # Save processed CSV
-    df.to_csv("d:/Deep_Learning/AI Contract Intelligence System/data/processed_clauses.csv", index=False, encoding='utf-8')
+    df.to_csv(os.path.join(base_dir, "data", "processed_clauses.csv"), index=False, encoding='utf-8')
     print("\nSaved processed clauses to data/processed_clauses.csv")
     
     # Original dataset EDA stats (Task 1)
@@ -298,7 +301,7 @@ def process_dataset():
         "longest_clause_words": int(max_len),
         "shortest_clause_words": int(min_len)
     }
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/eda_stats.json", "w") as sf:
+    with open(os.path.join(base_dir, "data", "eda_stats.json"), "w") as sf:
         json.dump(stats_dict, sf, indent=2)
         
     # --- Generating Visualizations ---
@@ -311,7 +314,7 @@ def process_dataset():
     plt.xticks(rotation=30, ha='right')
     plt.grid(axis='y', linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig("d:/Deep_Learning/AI Contract Intelligence System/assets/clause_distribution.png", dpi=150)
+    plt.savefig(os.path.join(base_dir, "assets", "clause_distribution.png"), dpi=150)
     plt.close()
     
     # 2. Word Frequency (Top 25 words excluding common words/cleaning)
@@ -334,7 +337,7 @@ def process_dataset():
     plt.xticks(rotation=45, ha='right')
     plt.grid(axis='y', linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig("d:/Deep_Learning/AI Contract Intelligence System/assets/word_frequency.png", dpi=150)
+    plt.savefig(os.path.join(base_dir, "assets", "word_frequency.png"), dpi=150)
     plt.close()
     
     # 3. Contract Length Histogram (Sentence/Clause length in words)
@@ -345,7 +348,7 @@ def process_dataset():
     plt.ylabel("Count", fontsize=12)
     plt.grid(axis='y', linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig("d:/Deep_Learning/AI Contract Intelligence System/assets/contract_length_histogram.png", dpi=150)
+    plt.savefig(os.path.join(base_dir, "assets", "contract_length_histogram.png"), dpi=150)
     plt.close()
     
     print("Visualizations generated and saved to assets/ directory.")
@@ -361,7 +364,7 @@ def process_dataset():
     print(f"Vocabulary built. Size: {len(vocab)} words.")
     
     # Save vocabulary
-    with open("d:/Deep_Learning/AI Contract Intelligence System/data/vocab.json", "w") as vf:
+    with open(os.path.join(base_dir, "data", "vocab.json"), "w") as vf:
         json.dump(vocab, vf, indent=2)
     print("Saved vocabulary to data/vocab.json")
     
@@ -370,7 +373,7 @@ def process_dataset():
     df["padded_indices"] = df["tokens"].apply(lambda tok: pad_sequence(tok, vocab, max_len=max_len))
     
     # Save the final preprocessed dataframe to a JSON file for model training (keeps lists intact)
-    df.to_json("d:/Deep_Learning/AI Contract Intelligence System/data/preprocessed_data.json", orient='records', indent=2)
+    df.to_json(os.path.join(base_dir, "data", "preprocessed_data.json"), orient='records', indent=2)
     print("Saved preprocessed training-ready dataset to data/preprocessed_data.json")
     
 if __name__ == "__main__":
